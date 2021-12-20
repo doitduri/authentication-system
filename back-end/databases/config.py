@@ -7,7 +7,7 @@ ALGORITHM = "HS256"
 DATABASE_ACCOUNT = 'root'
 DATABASE_PASSWORD = ''
 
-DATABASE_URL = "mysql+mysqldb://DATABASE_ACCOUNT:DATABASE_PASSWOR@localhost:3306/auth"
+DATABASE_URL = "mysql+mysqldb://DATABASE_ACCOUNT:DATABASE_PASSWOR@fastapi-auth.cjvmghmvhslq.eu-west-1.rds.amazonaws.com:3306/auth"
 engine = create_engine(
     DATABASE_URL,
 )
