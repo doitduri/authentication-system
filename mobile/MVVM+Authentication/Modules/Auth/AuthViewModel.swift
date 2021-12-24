@@ -8,7 +8,6 @@
 import RxSwift
 import RxCocoa
 
-
 class AuthViewModel: BaseViewModel {
     let input = Input()
     let output = Output()
@@ -35,21 +34,40 @@ class AuthViewModel: BaseViewModel {
         self.userService = userService
         self.userDefaults = userDefaults
         super.init()
-        
     }
     
     override func bind() {
+        self.input.emailTextField
+            .subscribe(onNext: {
+                print($0)
+            })
+            .disposed(by: disposeBag)
         
+        self.input.passwordTextFiled
+            .subscribe(onNext: {
+                print($0)
+            })
+            .disposed(by: disposeBag)
+        
+        self.input.tapLoginButton
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: {
+                self.signIn(request: SignInRequest(
+                    email: self.input.emailTextField.value,
+                    password: self.input.passwordTextFiled.value
+                ))
+            })
+            .disposed(by: disposeBag)
     }
     
     private func signIn(request: SignInRequest) {
+        print(request)
         self.userService.signIn(request: request)
-            .subscribe { [weak self] response in
-                guard let self = self else { return }
-//                self.userDefaults.setUserToken(token: response.accessToken)
-                
+            .bind(onNext: { response in
+                print(response)
+                UserDefaultsUtil.setUserToken(token: response.accessToken)
                 self.output.goToMain.accept(())
-            }
+            })
             .disposed(by: disposeBag)
     }
 }

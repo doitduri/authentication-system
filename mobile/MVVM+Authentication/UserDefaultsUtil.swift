@@ -25,22 +25,24 @@ struct UserDefaultsUtil {
     }
     
     func getUserToken() -> String {
-        print("UserDefaultsUtil- getUserToken")
         return self.instance.string(forKey: UserDefaultsUtil.KEY_TOKEN) ?? ""
     }
     
     func setUserToken(token: String) {
-        print("UserDefaultsUtil- setUserToken")
         self.instance.set(token, forKey: UserDefaultsUtil.KEY_TOKEN)
     }
     
+    func clear() {
+      self.instance.removeObject(forKey: UserDefaultsUtil.KEY_USER_ID)
+      self.instance.removeObject(forKey: UserDefaultsUtil.KEY_TOKEN)
+    }
+    
     static func setUserToken(token: String?) {
-        print("UserDefaultsUtil- setUserToken")
+        
       UserDefaults.standard.set(token, forKey: UserDefaultsUtil.KEY_TOKEN)
     }
     
     static func getUserToken() -> String? {
-        print("UserDefaultsUtil- getUserToken")
       return UserDefaults.standard.string(forKey: UserDefaultsUtil.KEY_TOKEN)
     }
     
